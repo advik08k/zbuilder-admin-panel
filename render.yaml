@@ -1,0 +1,31 @@
+# Render blueprint - one-click deploy for the ZBuilder Ad Admin Panel.
+#
+# NOTE: Render does NOT read .env files. The four secrets below are set in the
+# dashboard (or as "envFile" once you add one). Everything else is non-secret.
+services:
+  - type: web
+    name: zbuilder-ad-admin
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: GITHUB_OWNER
+        value: advik08k
+      - key: GITHUB_REPO
+        value: ZBuilder-Plugins
+      - key: GITHUB_BRANCH
+        value: main
+      - key: CONFIG_PATH
+        value: ad-config.json
+      - key: GITHUB_TOKEN
+        sync: false # <- paste a classic PAT with `repo` scope
+      - key: ADMIN_PASSWORD
+        sync: false # <- dashboard login password
+      - key: SESSION_SECRET
+        sync: false # <- node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
