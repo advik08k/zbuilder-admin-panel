@@ -43,10 +43,12 @@ implementation("com.startapp:inapp-sdk:4.11.0")
 implementation("com.github.bumptech.glide:glide:4.16.0")
 ```
 
-### B3. `SupportActivity.kt` — switch the fallback screen
+### B3. `SupportActivity.kt` — switch the fallback screen ✅ DONE
 
 ```kotlin
 private fun fallbackToWaitScreen(rewardType: Int) {
+    // Custom Fallback Ad (GitHub-hosted config). FallbackAdActivity is kept
+    // intact - swap this one line back if anything misbehaves.
     val intent = Intent(this, BuildAdActivity::class.java)   // was FallbackAdActivity
     intent.putExtra("REWARD_TYPE", rewardType)
     startActivity(intent)
@@ -54,6 +56,12 @@ private fun fallbackToWaitScreen(rewardType: Int) {
 ```
 
 `FallbackAdActivity` is left untouched so reverting is a one-line change.
+
+> **Reward flow is not double-counted.** In `showAdOrFallback`, the
+> `onRewarded` lambda only fires from `VideoListener.onVideoCompleted()`
+> (the StartApp path). The fallback branch calls `fallbackToWaitScreen(...)`
+> and never invokes the lambda, so the reward is granted solely by
+> `BuildAdActivity.grantRewardIfNeeded()`.
 
 ---
 

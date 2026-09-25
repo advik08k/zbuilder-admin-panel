@@ -37,17 +37,23 @@ Commit this file to the root of your repo — **`ad-config.json`**:
 {
   "isActive": true,
   "adImageUrl": "https://raw.githubusercontent.com/advik08k/ZBuilder-Plugins/main/ads/sample-banner.png",
-  "redirectLink": "https://github.com/advik08k/ZBuilder-Plugins",
-  "timerSeconds": 5
+  "redirectLink": "https://github.com/advik08k/ZBuilder-Plugins"
 }
 ```
 
 | Field | Type | Meaning |
 |---|---|---|
 | `isActive` | bool | `false` → app shows nothing and closes instantly |
-| `adImageUrl` | string | Full-screen ad image (`centerCrop`) |
+| `adImageUrl` | string | Full-screen ad image (`centerCrop`). A share/page URL (e.g. `ibb.co/xxx`) is auto-resolved to the direct image via `og:image` |
 | `redirectLink` | string | Opens when the user taps the image |
-| `timerSeconds` | int 1–120 | Countdown before the skip pill becomes clickable |
+
+> **Wait time is not configurable.** It is tied to the reward the user asked
+> for, so the ad always matches what it pays out:
+>
+> | Reward | Wait |
+> |---|---|
+> | 1 free build | **20 s** |
+> | 3 free builds | **60 s** |
 
 A ready-to-use copy is at `admin-panel/ad-config.json`.
 

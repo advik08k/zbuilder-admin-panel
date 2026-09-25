@@ -198,17 +198,16 @@ function sanitize(input) {
   if (redirectLink && !isHttp(redirectLink))
     errors.push("redirectLink must start with http:// or https://");
 
-  let timerSeconds = parseInt(input.timerSeconds, 10);
-  if (!Number.isFinite(timerSeconds)) timerSeconds = 5;
-  timerSeconds = Math.min(120, Math.max(1, timerSeconds));
-
   if (errors.length) {
     const e = new Error(errors.join(" | "));
     e.status = 400;
     throw e;
   }
 
-  return { isActive, adImageUrl, redirectLink, timerSeconds };
+  // NOTE: no timerSeconds here on purpose. The wait is decided by the app
+  // from the reward being claimed (20s -> +1 build, 60s -> +3 builds), so a
+  // panel-controlled timer would contradict what the reward pays out.
+  return { isActive, adImageUrl, redirectLink };
 }
 
 // ------------------------------------------------------------- dashboard

@@ -136,11 +136,6 @@
         <input type="text" id="redirectLink" placeholder="https://example.com" />
       </div>
 
-      <div class="field">
-        <label for="timerSeconds">Skip timer (seconds, 1–120)</label>
-        <input type="number" id="timerSeconds" min="1" max="120" step="1" />
-      </div>
-
       <div class="row">
         <button id="saveBtn">Save &amp; publish</button>
         <button class="ghost" id="reloadBtn">Reload</button>
@@ -154,7 +149,7 @@
       <div class="previewBox">
         <img id="pvImg" alt="" style="display:none" />
         <div class="empty" id="pvEmpty">No image URL set</div>
-        <div class="pill" id="pvPill">Skip in 5</div>
+        <div class="pill" id="pvPill">Skip in 20</div>
       </div>
       <div class="code" id="rawCode">…</div>
       <div class="row" style="margin-top:14px">
@@ -183,7 +178,9 @@
     b.textContent = on ? "● AD ACTIVE" : "○ AD DISABLED";
   }
   function renderPreview(cfg) {
-    $("pvPill").textContent = "Skip in " + (cfg.timerSeconds || 5);
+    // The wait isn't configurable any more: the app shows 20s for a +1 build
+    // and 60s for +3 builds, so the preview just mirrors the smaller tier.
+    $("pvPill").textContent = "Skip in 20";
     const img = $("pvImg"), empty = $("pvEmpty");
     if (cfg.adImageUrl) {
       img.src = cfg.adImageUrl;
@@ -209,8 +206,7 @@
     return {
       isActive: $("isActive").checked,
       adImageUrl: $("adImageUrl").value.trim(),
-      redirectLink: $("redirectLink").value.trim(),
-      timerSeconds: parseInt($("timerSeconds").value, 10) || 5
+      redirectLink: $("redirectLink").value.trim()
     };
   }
 
@@ -271,12 +267,11 @@
     $("isActive").checked = !!cfg.isActive;
     $("adImageUrl").value = cfg.adImageUrl || "";
     $("redirectLink").value = cfg.redirectLink || "";
-    $("timerSeconds").value = cfg.timerSeconds || 5;
     renderPreview(cfg);
   }
 
   // live preview while typing
-  ["adImageUrl", "timerSeconds", "isActive"].forEach((id) => {
+  ["adImageUrl", "isActive"].forEach((id) => {
     $(id).addEventListener("input", () => renderPreview(readForm()));
     $(id).addEventListener("change", () => renderPreview(readForm()));
   });
