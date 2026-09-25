@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ZBuilder - Custom Fallback Ad screen.
+     Structure:
+       FrameLayout (root, black)
+         ├── ImageView          full-bleed ad image (centerCrop)
+         ├── ProgressBar        shown while the image downloads
+         ├── LinearLayout       bottom scrim + "Sponsored" hint
+         └── TextView  tvSkip   TOP-RIGHT, over the image (pill) -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <!-- ===== the ad image, fills the screen ===== -->
+    <ImageView
+        android:id="@+id/ivAdImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0D0D0D"
+        android:clickable="true"
+        android:contentDescription="Advertisement"
+        android:focusable="true"
+        android:scaleType="centerCrop" />
+
+    <!-- ===== loading spinner, centred ===== -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#00B4FF"
+        android:visibility="gone" />
+
+    <!-- ===== bottom scrim so the footer text stays readable ===== -->
+    <View
+        android:id="@+id/bottomScrim"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_ad_gradient" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="26dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.14"
+            android:text="SPONSORED"
+            android:textColor="#AAFFFFFF"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tvTapHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Tap the image to learn more"
+            android:textColor="#FFFFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- ===== SKIP TIMER: top-right corner, laid OVER the image =====
+         FrameLayout + layout_gravity="top|end" is what guarantees the
+         overlap: it ignores the ImageView and is drawn after it. -->
+    <TextView
+        android:id="@+id/tvSkip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_skip_pill"
+        android:clickable="false"
+        android:focusable="false"
+        android:gravity="center"
+        android:minWidth="96dp"
+        android:paddingStart="18dp"
+        android:paddingTop="9dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="9dp"
+        android:text="Skip in 5"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</FrameLayout>
